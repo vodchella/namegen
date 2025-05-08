@@ -20,6 +20,10 @@ fn get_rnd_con() -> &'static str {
     CON[get_rnd_num(CON.len())]
 }
 
+fn is_vow(sym: &str) -> bool {
+    VOW.contains(&sym)
+}
+
 fn get_rnd_syl() -> Vec<&'static str> {
     let template = get_rnd_num(3);
     let mut symbols: Vec<&str> = Vec::new();
@@ -41,9 +45,29 @@ fn get_rnd_word() -> Vec<&'static str> {
     word
 }
 
+fn get_mutated_word<'a>(word: &'a Vec<&'a str>) -> Vec<&'a str> {
+    let mut cloned = (*word).clone();
+    let i = get_rnd_num(cloned.len());
+    loop {
+        let new_sym = match is_vow(cloned[i]) {
+            true  => get_rnd_vow(),
+            false => get_rnd_con(),
+        };
+        if new_sym != cloned[i] {
+            cloned[i] = new_sym;
+            break;
+        }
+    }
+    cloned
+}
+
 
 fn main() {
-    for _i in 1 .. 10 {
-        println!("{}", get_rnd_word().join(""));
+    for _i in 0 .. 6 {
+        let word = get_rnd_word();
+        println!("{}", word.join(""));
+        for _j in 0 .. 3 {
+            println!("    {}", get_mutated_word(&word).join(""));
+        }
     }
 }
