@@ -25,20 +25,27 @@ fn is_vow(sym: &str) -> bool {
 }
 
 fn get_rnd_syl() -> Vec<&'static str> {
+    /*
+     *  0: V
+     *  1: V C
+     *  2: C V
+     *  3: C V C
+     */
     let template = get_rnd_num(3);
     let mut symbols: Vec<&str> = Vec::new();
     match template {
-        0 => symbols.extend([get_rnd_vow(), get_rnd_con()]),
-        1 => symbols.extend([get_rnd_con(), get_rnd_vow()]),
-        2 => symbols.extend([get_rnd_con(), get_rnd_vow(), get_rnd_con()]),
-        _ => todo!(),
+        0 => symbols.extend([get_rnd_vow()]),
+        1 => symbols.extend([get_rnd_vow(), get_rnd_con()]),
+        2 => symbols.extend([get_rnd_con(), get_rnd_vow()]),
+        3 => symbols.extend([get_rnd_con(), get_rnd_vow(), get_rnd_con()]),
+        _ => (),
     }
     symbols
 }
 
 fn get_rnd_word() -> Vec<&'static str> {
     let mut word: Vec<&str> = Vec::new();
-    let syl_cnt = get_rnd_num(3) + 1;
+    let syl_cnt = get_rnd_num(3) + 2;
     for _i in 0 .. syl_cnt {
         word.append(&mut get_rnd_syl());
     }
